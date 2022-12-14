@@ -1,6 +1,9 @@
 
 import React, {useEffect, useState} from "react";
 import {Router, useRouter} from "next/router";
+import { client } from "../../client";
+import {useAtom} from "jotai";
+import {UserInfo} from "../../jotai";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -13,6 +16,9 @@ const Login = () =>{
     const [time,setTime] = useState(0)
     const [hidden,setHidden] = useState(false)
     const[submitState,setSubmitState] =useState(false)
+    const [loginState,setLoginState] = useState(false)
+    const [verificationState,setVerificationState] = useState(false)
+    const [,setUserInfo] =useAtom(UserInfo)
     useEffect(() => {
         setTimeout(() => {
             if (time > 0) {
@@ -38,16 +44,48 @@ const Login = () =>{
         }
     }
 
-    const submit = () =>{
-        if (submitState){
-            router.push(`/course`)
+    const submit = async () => {
+        if (submitState) {
+            setLoginState(true)
+            const ret = await client.callApi('CheckEmail', {
+                email: (document.getElementById("email") as HTMLInputElement).value,
+                code: (document.getElementById("verification") as HTMLInputElement).value
+            });
+            const email = {
+                user_email:`${(document.getElementById("email") as HTMLInputElement).value}`
+            }
+
+            if (ret.res.state) {
+                setLoginState(false)
+                setUserInfo(email)
+                await   router.push(`/course`)
+            } else {
+                setLoginState(false)
+               alert("验证码错误")
+            }
+
         }
     }
-    const send = () =>{
-        if(emailType && emailNumber){
-            setSubmitState(true)
-            setHidden(true)
-            setTime(30)
+    const send = async () => {
+
+        if (emailType && emailNumber) {
+            setVerificationState(true)
+            if(!verificationState){
+                const ret = await client.callApi('SendEmail', {
+                    email: (document.getElementById("email") as HTMLInputElement).value
+                });
+                console.log(ret.isSucc)
+                if (ret.isSucc) {
+                    setVerificationState(false)
+                    setSubmitState(true)
+                    setHidden(true)
+                    setTime(30)
+                }else {
+                    alert("请检查网络或者联系管理员")
+                    setVerificationState(false)
+                }
+            }
+
         }
     }
 
@@ -103,8 +141,8 @@ const Login = () =>{
                                 </label>
                                 <div className="mt-1">
                                     <input
+                                        id='verification'
                                         type=""
-                                        autoComplete="email"
                                         required
                                         placeholder="请输入"
                                         className={classNames("outline-none block w-full px-3 py-2 border  rounded-full shadow-sm placeholder-gray-400 focus:outline-none   sm:text-sm")}
@@ -114,10 +152,12 @@ const Login = () =>{
                             <div className="flex justify-end mt-2">
                                 <button  className={hidden?"hidden":""}
                                 onClick={send}>
-                                    <div className={classNames(emailType && emailNumber?" bg-black ":"cursor-not-allowed","w-24  border bg-white text-black rounded-lg  py-1.5  text-gray-200 text-xs ")}>
+                                    <div className={classNames(emailType && emailNumber?" bg-black ":"cursor-not-allowed","w-24  flex justify-center  border bg-white text-black rounded-lg  py-1.5  text-gray-200 text-xs ")}>
                                         获取验证码
+                                        <div className={verificationState?"animate-spin":"hidden animate-spin"}>
+                                        <i className="fa fa-spinner f-spin fa-x fa-fw"></i></div>
                                     </div></button>
-                                <button className={hidden?"border bg-white text-black rounded-lg px-2 py-1.5  text-gray-200 text-xs":"hidden"}>
+                                <button className={hidden?"border bg-white text-black rounded-lg px-2 py-1.5  text-gray-200  text-xs":"hidden"}>
                                     请等待 {time} 秒后重试
                                 </button>
                             </div>
@@ -127,7 +167,8 @@ const Login = () =>{
                                     onClick={submit}
                                     className={classNames(submitState?"bg-black text-white border":"cursor-not-allowed bg-white text-gray-300","  w-24 flex justify-center py-2 px-4  border-black  rounded-full shadow-sm text-sm font-medium")}
                                 >
-                                    登录
+                                    登录   <div className={loginState?"animate-spin":"hidden animate-spin"}>
+                                    <i className="fa fa-spinner f-spin fa-x fa-fw"></i></div>
                                 </button>
                             </div>
 

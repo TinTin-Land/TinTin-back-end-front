@@ -11,6 +11,7 @@ import {
     Course_Hint_Deleted, Course_Hint_Saved, Course_ShowFailed, Course_ShowSuccess,
     Course_SuccessfullyDeleted, Course_SuccessfullySaved
 } from "../../../jotai";
+import {client} from "../../../client";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -25,6 +26,37 @@ const options_course = [
     { value: 'vanilla2', label: 'Vanill2a' },
 ];
 
+const questionNairList = [
+    {
+        id:"问卷_1",
+        hash:"问卷_1_hash"
+    },
+    {
+        id:"问卷_2",
+        hash:"问卷_2_hash"
+    },
+    {
+        id:"问卷_3",
+        hash:"问卷_3_hash"
+    },
+    {
+        id:"问卷_4",
+        hash:"问卷_4_hash"
+    },
+    {
+        id:"问卷_5",
+        hash:"问卷_5_hash"
+    },
+    {
+        id:"问卷_6",
+        hash:"问卷_6_hash"
+    },
+    {
+        id:"问卷_7",
+        hash:"问卷_7_hash"
+    },
+
+]
 
 const Add_course =  () =>{
     const [selectedOptions_course, setSelectedOption_Course] = useState(null);
@@ -43,9 +75,36 @@ const Add_course =  () =>{
             console.log(e);
             console.log(e.target.result);
             setImgUrl(`${e.target.result}`)
-
         }
     }
+    const submit = async () => {
+        let data = []
+        for (let i = 0; i < 7; i++) {
+            let survey_id = (document.getElementById(`${questionNairList[i].id}`) as HTMLInputElement).value;
+            console.log(survey_id)
+            let survey_hash = (document.getElementById(`${questionNairList[i].hash}`) as HTMLInputElement).value
+
+            if (survey_id !== "" && survey_hash !== "") {
+                const rest = {
+                    survey_id,
+                    survey_hash
+                }
+                data.push(rest)
+            }
+
+        }
+        const course_wj_url_list = JSON.stringify(data)
+        const ret = await client.callApi('AddCourseWj', {
+            course_name: "第三期｜Internet Computer：从核心技术入门到开发实战",
+            course_wj_url_list
+
+        });
+        console.log(ret)
+
+        // console.log(xxx)
+        // setShowSuccess(true)
+    }
+
     return(
         <div  className="flex ">
             <Header/>
@@ -256,7 +315,7 @@ const Add_course =  () =>{
 
 
                         {/*课程介绍*/}
-                        <div className="pt-14 ">
+                        <div className="py-14 border-b">
                             <div className="font-semibold">
                                 课程介绍
                             </div>
@@ -514,6 +573,58 @@ const Add_course =  () =>{
                             <div className="pl-32 text-sm text-gray-400">
                                 *请以英文输入法;隔开
                             </div>
+                        </div>
+
+                        {/*课程问卷*/}
+                        <div className="py-14 ">
+                            <div className="font-semibold">
+                                课程问卷
+                            </div>
+
+                            {/*课时数*/}
+                            {questionNairList.map(item=>(
+                                <div className=" mt-4 flex  ">
+                                    <div className="w-32  flex justify-end items-center">
+                                        <div className="text-red-500 text-sm mr-1">
+                                            *
+                                        </div>
+                                        <div className='mr-1 text-sm'>
+                                            {item.id}:
+                                        </div>
+                                    </div>
+                                    <div className="">
+                                        <input
+                                            id={item.id}
+                                            type="text"
+                                            autoComplete="off"
+                                            required
+                                            placeholder=""
+                                            className={classNames(" block w-96 px-2 py-1 border rounded-lg  shadow-sm placeholder-gray-400 focus:outline-none  focus:border-blue-300 text-center sm:text-left sm:text-sm")}
+                                        />
+                                    </div>
+                                    <div className="pl-2  flex justify-end items-center">
+                                        <div className="text-red-500 text-sm mr-1">
+                                            *
+                                        </div>
+                                        <div className='mr-1 text-sm'>
+                                            {item.hash}:
+                                        </div>
+                                    </div>
+                                    <div className="">
+                                        <input
+                                            id={item.hash}
+                                            type="text"
+                                            autoComplete="off"
+                                            required
+                                            placeholder=""
+                                            className={classNames(" block w-96 px-2 py-1 border rounded-lg ml-4 shadow-sm placeholder-gray-400 focus:outline-none  focus:border-blue-300 text-center sm:text-left sm:text-sm")}
+                                        />
+                                    </div>
+
+
+                                </div>
+                            ))}
+
 
 
                         </div>
@@ -523,9 +634,7 @@ const Add_course =  () =>{
                             <button
                                 type="button"
                                 className=" rounded-md text-sm text-black  focus:outline-none bg-blue-500 text-white  py-1 p-3"
-                                onClick={() => {
-                                    setShowSuccess(true)
-                                }}
+                                onClick={submit}
                             >
                                 上架
                             </button>

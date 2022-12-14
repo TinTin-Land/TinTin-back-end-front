@@ -19,6 +19,11 @@ const Course_Deleted = () =>{
     const [showFailedDelete1,setShowFailedDelete1] = useAtom(Course_FailedDelete1)
     const [showFailedDelete2,setShowFailedDelete2] = useAtom(Course_FailedDelete2)
 
+    const next = () =>{
+        setShowHint(false)
+        setShowSuccessfully(true)
+    }
+
     return(
         <>
             <Transition.Root show={showHint} as={Fragment}>
@@ -76,9 +81,7 @@ const Course_Deleted = () =>{
                                         <button
                                             type="button"
                                             className=" rounded-md text-sm text-black  focus:outline-none bg-blue-500 text-white py-1 p-3"
-                                            onClick={() => {
-                                                setShowSuccessfully(true)
-                                            }}
+                                            onClick={next}
                                         >
                                             继续
                                         </button>
@@ -134,6 +137,8 @@ const Course_Deleted = () =>{
                                                 className=" rounded-md text-sm text-black  focus:outline-none bg-blue-500 text-white py-1 p-3"
                                                 onClick={() => {
                                                     setShowSuccessfully(false)
+                                                    location.reload();
+
                                                 }}
                                             >
                                                 确认
