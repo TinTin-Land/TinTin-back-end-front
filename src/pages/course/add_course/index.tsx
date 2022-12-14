@@ -95,14 +95,14 @@ const Add_course =  () =>{
         }
         const course_wj_url_list = JSON.stringify(data)
         const ret = await client.callApi('AddCourseWj', {
-            course_name: "第三期｜Internet Computer：从核心技术入门到开发实战",
+            course_name: "区块链入门课程——0基础创建以太坊智能合约",
             course_wj_url_list
 
         });
         console.log(ret)
 
         // console.log(xxx)
-        // setShowSuccess(true)
+        setShowSuccess(true)
     }
 
     return(
