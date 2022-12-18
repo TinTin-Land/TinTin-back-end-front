@@ -1,20 +1,16 @@
 // This is a demo code file
 // Feel free to delete it
 
-
-import {user} from "../interface/user";
-
 /**
  * 增加数据
  * 此处的注释将会自动附带到生成的 API 文档中
  */
-export interface ReqGetUser {
+export interface ReqGetCourseProvider {
     /** 要增加的消息内容 */
-    user_email:string;
 }
 
-export interface ResGetUser {
+export interface ResGetCourseProvider {
     /** 服务端内容创建时间 */
-    time: Date
-    user: user
+    time: Date;
+    course_provider_info:string;
 }

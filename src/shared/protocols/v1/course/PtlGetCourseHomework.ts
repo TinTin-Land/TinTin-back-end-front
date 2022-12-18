@@ -1,20 +1,19 @@
 // This is a demo code file
 // Feel free to delete it
 
-
-import {user} from "../interface/user";
+import {course_homework} from "../../../interface/course_homework";
 
 /**
  * 增加数据
  * 此处的注释将会自动附带到生成的 API 文档中
  */
-export interface ReqUpdateUser {
+export interface ReqGetCourseHomework {
     /** 要增加的消息内容 */
-    user:user
+    course_name: string;
 }
 
-export interface ResUpdateUser {
+export interface ResGetCourseHomework {
     /** 服务端内容创建时间 */
     time: Date
-    user: user
+    course_homework:course_homework
 }

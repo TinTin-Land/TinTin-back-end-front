@@ -47,7 +47,7 @@ const Login = () =>{
     const submit = async () => {
         if (submitState) {
             setLoginState(true)
-            const ret = await client.callApi('CheckEmail', {
+            const ret = await client.callApi('v1/email/CheckEmail', {
                 email: (document.getElementById("email") as HTMLInputElement).value,
                 code: (document.getElementById("verification") as HTMLInputElement).value
             });
@@ -71,7 +71,7 @@ const Login = () =>{
         if (emailType && emailNumber) {
             setVerificationState(true)
             if(!verificationState){
-                const ret = await client.callApi('SendEmail', {
+                const ret = await client.callApi('v1/email/SendEmail', {
                     email: (document.getElementById("email") as HTMLInputElement).value
                 });
                 console.log(ret.isSucc)

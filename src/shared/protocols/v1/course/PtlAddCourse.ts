@@ -1,7 +1,6 @@
 // This is a demo code file
 // Feel free to delete it
 
-import {Column} from "typeorm";
 
 /**
  * 增加数据
@@ -21,8 +20,8 @@ export interface ReqAddCourse {
     course_teacher_info: string;
     course_advantages: string;
     course_provider: string;
-    course_student_feedback: string;
-    course_student_profile: string;
+    course_student_profile_feedback:string
+    course_target_user_group:string;
     course_community_support: string;
 }
 

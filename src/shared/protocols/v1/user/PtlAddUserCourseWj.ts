@@ -9,7 +9,6 @@ export interface ReqAddUserCourseWj {
     /** 要增加的消息内容 */
     user_email: string;
     course_name:string;
-    login_code:string;
 }
 
 export interface ResAddUserCourseWj {
