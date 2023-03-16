@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import Head from "../head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -10,7 +11,7 @@ const navigation = [
         title:"用户管理",
         sort:[
             {
-
+                href:"",
                 list:"用户列表",
             },
         ]
@@ -23,9 +24,15 @@ const navigation = [
                 list:"课程列表",
             },
             {
+                href:"/bind_course",
+                list:"课程绑定",
+            },
+            {
+                href:"",
                 list:"导师管理",
             },
             {
+                href:"",
                 list:"课程推荐人",
             },
         ]
@@ -34,9 +41,11 @@ const navigation = [
         title:"活动管理",
         sort:[
             {
+                href:"",
                 list:"活动专题",
             },
             {
+                href:"",
                 list:"活动列表",
             },
         ]
@@ -64,6 +73,7 @@ const Header = () =>{
     },[router.isReady,router.query.slug])
     return(
             <div className="fixed w-56 py-6 shadow h-screen">
+                <Head/>
                 <div className=" flex justify-center mb-6">
                     <img src="/tintin_color_horizontal.svg" alt=""/>
                 </div>

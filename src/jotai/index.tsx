@@ -24,4 +24,14 @@ const Course_ShowFailed = atom(false)
 const userInfo = { user_email: ""}
 const UserInfo= atomWithStorage("UserEmail",userInfo)
 
-export {UserInfo,Course_Hint_Deleted,Course_SuccessfullyDeleted,Course_FailedDelete1,Course_FailedDelete2,Course_SuccessfullySaved,Course_FailedSaved,Course_ShowSuccess,Course_ShowFailed,Course_Hint_Saved}
+const OpenLoginState = atom(false)
+
+const CourseDetail = atom(  {
+    course_name:"",
+    course_tab:[{content:""}],
+    course_link:"",
+    course_image:"",
+    course_wj_url_list:[{survey_id:"",survey_hash:""}]
+})
+
+export {CourseDetail,OpenLoginState,UserInfo,Course_Hint_Deleted,Course_SuccessfullyDeleted,Course_FailedDelete1,Course_FailedDelete2,Course_SuccessfullySaved,Course_FailedSaved,Course_ShowSuccess,Course_ShowFailed,Course_Hint_Saved}

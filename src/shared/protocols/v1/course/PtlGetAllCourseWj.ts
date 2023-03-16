@@ -5,13 +5,13 @@
  * 增加数据
  * 此处的注释将会自动附带到生成的 API 文档中
  */
-export interface ReqAddWjUser {
+export interface ReqGetAllCourseWj {
     /** 要增加的消息内容 */
-    user_email:string;
+    // course_name:string;
 }
 
-export interface ResAddWjUser {
+export interface ResGetAllCourseWj {
     /** 服务端内容创建时间 */
     time: Date;
-    user_id:number;
+    course_wj_url_list:string;
 }

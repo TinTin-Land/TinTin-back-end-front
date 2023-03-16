@@ -6,6 +6,8 @@ import { ReqAddCourseHomework, ResAddCourseHomework } from './v1/course/PtlAddCo
 import { ReqAddCourseProvider, ResAddCourseProvider } from './v1/course/PtlAddCourseProvider';
 import { ReqAddCourseTeacher, ResAddCourseTeacher } from './v1/course/PtlAddCourseTeacher';
 import { ReqAddCourseWj, ResAddCourseWj } from './v1/course/PtlAddCourseWj';
+import { ReqGetAllCourse, ResGetAllCourse } from './v1/course/PtlGetAllCourse';
+import { ReqGetAllCourseWj, ResGetAllCourseWj } from './v1/course/PtlGetAllCourseWj';
 import { ReqGetCourse, ResGetCourse } from './v1/course/PtlGetCourse';
 import { ReqGetCourseAdvantages, ResGetCourseAdvantages } from './v1/course/PtlGetCourseAdvantages';
 import { ReqGetCourseCommunitySupport, ResGetCourseCommunitySupport } from './v1/course/PtlGetCourseCommunitySupport';
@@ -14,14 +16,21 @@ import { ReqGetCourseProvider, ResGetCourseProvider } from './v1/course/PtlGetCo
 import { ReqGetCourseTeacher, ResGetCourseTeacher } from './v1/course/PtlGetCourseTeacher';
 import { ReqGetCourseWj, ResGetCourseWj } from './v1/course/PtlGetCourseWj';
 import { ReqGetCourseWjResult, ResGetCourseWjResult } from './v1/course/PtlGetCourseWjResult';
+import { ReqRemoveCourse, ResRemoveCourse } from './v1/course/PtlRemoveCourse';
+import { ReqRemoveCourseWj, ResRemoveCourseWj } from './v1/course/PtlRemoveCourseWj';
 import { ReqCheckEmail, ResCheckEmail } from './v1/email/PtlCheckEmail';
 import { ReqSendEmail, ResSendEmail } from './v1/email/PtlSendEmail';
 import { ReqEnrollCourse, ResEnrollCourse } from './v1/teachable/PtlEnrollCourse';
 import { ReqEnrollUser, ResEnrollUser } from './v1/teachable/PtlEnrollUser';
+import { ReqGetCourseId, ResGetCourseId } from './v1/teachable/PtlGetCourseId';
+import { ReqGetTaUser, ResGetTaUser } from './v1/teachable/PtlGetTaUser';
+import { ReqCheckTx, ResCheckTx } from './v1/tx/PtlCheckTx';
 import { ReqAddUser, ResAddUser } from './v1/user/PtlAddUser';
+import { ReqAddUserBind, ResAddUserBind } from './v1/user/PtlAddUserBind';
 import { ReqAddUserCourseWj, ResAddUserCourseWj } from './v1/user/PtlAddUserCourseWj';
 import { ReqGetThirdPartyUser, ResGetThirdPartyUser } from './v1/user/PtlGetThirdPartyUser';
 import { ReqGetUser, ResGetUser } from './v1/user/PtlGetUser';
+import { ReqGetUserBind, ResGetUserBind } from './v1/user/PtlGetUserBind';
 import { ReqGetUserCourseList, ResGetUserCourseList } from './v1/user/PtlGetUserCourseList';
 import { ReqGetUserCourseWj, ResGetUserCourseWj } from './v1/user/PtlGetUserCourseWj';
 import { ReqUpdateUser, ResUpdateUser } from './v1/user/PtlUpdateUser';
@@ -61,6 +70,14 @@ export interface ServiceType {
             req: ReqAddCourseWj,
             res: ResAddCourseWj
         },
+        "v1/course/GetAllCourse": {
+            req: ReqGetAllCourse,
+            res: ResGetAllCourse
+        },
+        "v1/course/GetAllCourseWj": {
+            req: ReqGetAllCourseWj,
+            res: ResGetAllCourseWj
+        },
         "v1/course/GetCourse": {
             req: ReqGetCourse,
             res: ResGetCourse
@@ -93,6 +110,14 @@ export interface ServiceType {
             req: ReqGetCourseWjResult,
             res: ResGetCourseWjResult
         },
+        "v1/course/RemoveCourse": {
+            req: ReqRemoveCourse,
+            res: ResRemoveCourse
+        },
+        "v1/course/RemoveCourseWj": {
+            req: ReqRemoveCourseWj,
+            res: ResRemoveCourseWj
+        },
         "v1/email/CheckEmail": {
             req: ReqCheckEmail,
             res: ResCheckEmail
@@ -109,9 +134,25 @@ export interface ServiceType {
             req: ReqEnrollUser,
             res: ResEnrollUser
         },
+        "v1/teachable/GetCourseId": {
+            req: ReqGetCourseId,
+            res: ResGetCourseId
+        },
+        "v1/teachable/GetTaUser": {
+            req: ReqGetTaUser,
+            res: ResGetTaUser
+        },
+        "v1/tx/CheckTx": {
+            req: ReqCheckTx,
+            res: ResCheckTx
+        },
         "v1/user/AddUser": {
             req: ReqAddUser,
             res: ResAddUser
+        },
+        "v1/user/AddUserBind": {
+            req: ReqAddUserBind,
+            res: ResAddUserBind
         },
         "v1/user/AddUserCourseWj": {
             req: ReqAddUserCourseWj,
@@ -124,6 +165,10 @@ export interface ServiceType {
         "v1/user/GetUser": {
             req: ReqGetUser,
             res: ResGetUser
+        },
+        "v1/user/GetUserBind": {
+            req: ReqGetUserBind,
+            res: ResGetUserBind
         },
         "v1/user/GetUserCourseList": {
             req: ReqGetUserCourseList,
@@ -164,7 +209,7 @@ export interface ServiceType {
 }
 
 export const serviceProto: ServiceProto<ServiceType> = {
-    "version": 8,
+    "version": 19,
     "services": [
         {
             "id": 33,
@@ -199,6 +244,16 @@ export const serviceProto: ServiceProto<ServiceType> = {
         {
             "id": 39,
             "name": "v1/course/AddCourseWj",
+            "type": "api"
+        },
+        {
+            "id": 69,
+            "name": "v1/course/GetAllCourse",
+            "type": "api"
+        },
+        {
+            "id": 70,
+            "name": "v1/course/GetAllCourseWj",
             "type": "api"
         },
         {
@@ -242,6 +297,16 @@ export const serviceProto: ServiceProto<ServiceType> = {
             "type": "api"
         },
         {
+            "id": 71,
+            "name": "v1/course/RemoveCourse",
+            "type": "api"
+        },
+        {
+            "id": 72,
+            "name": "v1/course/RemoveCourseWj",
+            "type": "api"
+        },
+        {
             "id": 48,
             "name": "v1/email/CheckEmail",
             "type": "api"
@@ -262,8 +327,28 @@ export const serviceProto: ServiceProto<ServiceType> = {
             "type": "api"
         },
         {
+            "id": 64,
+            "name": "v1/teachable/GetCourseId",
+            "type": "api"
+        },
+        {
+            "id": 63,
+            "name": "v1/teachable/GetTaUser",
+            "type": "api"
+        },
+        {
+            "id": 68,
+            "name": "v1/tx/CheckTx",
+            "type": "api"
+        },
+        {
             "id": 52,
             "name": "v1/user/AddUser",
+            "type": "api"
+        },
+        {
+            "id": 67,
+            "name": "v1/user/AddUserBind",
             "type": "api"
         },
         {
@@ -279,6 +364,11 @@ export const serviceProto: ServiceProto<ServiceType> = {
         {
             "id": 55,
             "name": "v1/user/GetUser",
+            "type": "api"
+        },
+        {
+            "id": 65,
+            "name": "v1/user/GetUserBind",
             "type": "api"
         },
         {
@@ -627,6 +717,50 @@ export const serviceProto: ServiceProto<ServiceType> = {
                     "name": "time",
                     "type": {
                         "type": "Date"
+                    }
+                }
+            ]
+        },
+        "v1/course/PtlGetAllCourse/ReqGetAllCourse": {
+            "type": "Interface"
+        },
+        "v1/course/PtlGetAllCourse/ResGetAllCourse": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "time",
+                    "type": {
+                        "type": "Date"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "course_details",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "v1/course/PtlGetAllCourseWj/ReqGetAllCourseWj": {
+            "type": "Interface"
+        },
+        "v1/course/PtlGetAllCourseWj/ResGetAllCourseWj": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "time",
+                    "type": {
+                        "type": "Date"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "course_wj_url_list",
+                    "type": {
+                        "type": "String"
                     }
                 }
             ]
@@ -999,6 +1133,54 @@ export const serviceProto: ServiceProto<ServiceType> = {
                 }
             ]
         },
+        "v1/course/PtlRemoveCourse/ReqRemoveCourse": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "course_name",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "v1/course/PtlRemoveCourse/ResRemoveCourse": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "time",
+                    "type": {
+                        "type": "Date"
+                    }
+                }
+            ]
+        },
+        "v1/course/PtlRemoveCourseWj/ReqRemoveCourseWj": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "course_name",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "v1/course/PtlRemoveCourseWj/ResRemoveCourseWj": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "time",
+                    "type": {
+                        "type": "Date"
+                    }
+                }
+            ]
+        },
         "v1/email/PtlCheckEmail/ReqCheckEmail": {
             "type": "Interface",
             "properties": [
@@ -1137,6 +1319,106 @@ export const serviceProto: ServiceProto<ServiceType> = {
                 }
             ]
         },
+        "v1/teachable/PtlGetCourseId/ReqGetCourseId": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "course_name",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "v1/teachable/PtlGetCourseId/ResGetCourseId": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "time",
+                    "type": {
+                        "type": "Date"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "course_id",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "v1/teachable/PtlGetTaUser/ReqGetTaUser": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "user_email",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "v1/teachable/PtlGetTaUser/ResGetTaUser": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "time",
+                    "type": {
+                        "type": "Date"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "user_id",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "v1/tx/PtlCheckTx/ReqCheckTx": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "tx_hash",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "user_id",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "course_id",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "v1/tx/PtlCheckTx/ResCheckTx": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "time",
+                    "type": {
+                        "type": "Date"
+                    }
+                }
+            ]
+        },
         "v1/user/PtlAddUser/ReqAddUser": {
             "type": "Interface",
             "properties": [
@@ -1157,6 +1439,37 @@ export const serviceProto: ServiceProto<ServiceType> = {
             ]
         },
         "v1/user/PtlAddUser/ResAddUser": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "time",
+                    "type": {
+                        "type": "Date"
+                    }
+                }
+            ]
+        },
+        "v1/user/PtlAddUserBind/ReqAddUserBind": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "user_email",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "user_evm_address",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "v1/user/PtlAddUserBind/ResAddUserBind": {
             "type": "Interface",
             "properties": [
                 {
@@ -1379,6 +1692,37 @@ export const serviceProto: ServiceProto<ServiceType> = {
                 }
             ]
         },
+        "v1/user/PtlGetUserBind/ReqGetUserBind": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "user_email",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "v1/user/PtlGetUserBind/ResGetUserBind": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "time",
+                    "type": {
+                        "type": "Date"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "user_evm_address",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
         "v1/user/PtlGetUserCourseList/ReqGetUserCourseList": {
             "type": "Interface",
             "properties": [
@@ -1564,13 +1908,6 @@ export const serviceProto: ServiceProto<ServiceType> = {
                 {
                     "id": 0,
                     "name": "user_email",
-                    "type": {
-                        "type": "String"
-                    }
-                },
-                {
-                    "id": 1,
-                    "name": "openid",
                     "type": {
                         "type": "String"
                     }

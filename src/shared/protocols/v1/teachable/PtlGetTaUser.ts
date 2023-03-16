@@ -5,13 +5,13 @@
  * 增加数据
  * 此处的注释将会自动附带到生成的 API 文档中
  */
-export interface ReqAddWjUser {
+export interface ReqGetTaUser {
     /** 要增加的消息内容 */
     user_email:string;
 }
 
-export interface ResAddWjUser {
+export interface ResGetTaUser {
     /** 服务端内容创建时间 */
-    time: Date;
-    user_id:number;
+    time: Date
+    user_id:string;
 }

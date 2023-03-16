@@ -7,9 +7,10 @@ import {
     Course_FailedDelete2, Course_FailedSaved,
     Course_Hint_Deleted, Course_Hint_Saved, Course_ShowFailed, Course_ShowSuccess,
     Course_SuccessfullyDeleted,
-    Course_SuccessfullySaved
+    Course_SuccessfullySaved, CourseDetail, OpenLoginState
 } from "../../jotai";
 import Link from "next/link";
+import {client} from "../../client";
 
 
 const Course_Deleted = () =>{
@@ -19,9 +20,27 @@ const Course_Deleted = () =>{
     const [showFailedDelete1,setShowFailedDelete1] = useAtom(Course_FailedDelete1)
     const [showFailedDelete2,setShowFailedDelete2] = useAtom(Course_FailedDelete2)
 
-    const next = () =>{
-        setShowHint(false)
-        setShowSuccessfully(true)
+    const [,setFailedSaved] =useAtom(Course_FailedSaved)
+    const [courseDetail,] = useAtom(CourseDetail)
+    const [,setOpenLogin] =useAtom(OpenLoginState)
+    const remove = async () => {
+        setOpenLogin(true)
+        const ret = await client.callApi('v1/course/RemoveCourse', {
+            course_name: courseDetail.course_name,
+        })
+        if(ret.isSucc){
+          const  WjRet =  await client.callApi('v1/course/RemoveCourseWj', {
+                course_name: courseDetail.course_name,
+            })
+            if(WjRet.isSucc){
+                setOpenLogin(false)
+                setShowHint(false)
+                setShowSuccessfully(true)
+            }
+        }else {
+            setOpenLogin(false)
+            setFailedSaved(true)
+        }
     }
 
     return(
@@ -51,21 +70,21 @@ const Course_Deleted = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <Dialog.Panel className="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl items-center transform transition-all sm:my-8 sm:max-w-sm sm:w-full sm:p-6">
+                            <Dialog.Panel className="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl items-center transform transition-all sm:my-8 sm:max-w-lg sm:w-full sm:p-6">
                                 <div className="items-center">
                                     <div className="flex items-center">
                                         <div className="flex-shrink-0">
                                             <ExclamationIcon className="h-8 w-8 text-yellow-400" aria-hidden="true" />
                                         </div>
-                                        <div className="ml-3   pt-0.5">
+                                        <div className="ml-3  text-sm pt-0.5">
                                             <p className=" text-sm font-medium text-gray-900">课程删除须知</p>
-                                            <div className="flex w-80 mt-1 text-sm ">
-                                            <p className="  text-red-500  ">
-                                                将删除关于课程得到所有信息，
+
+                                            <p className="flex  w-96 text-red-500  mt-1">
+                                                将删除关于 {courseDetail.course_name} 得到所有信息，
                                             </p>
                                             <p>你还要继续吗？
                                             </p>
-                                            </div>
+
                                         </div>
                                     </div>
                                     <div className="ml-4 flex justify-end mt-6">
@@ -81,7 +100,7 @@ const Course_Deleted = () =>{
                                         <button
                                             type="button"
                                             className=" rounded-md text-sm text-black  focus:outline-none bg-blue-500 text-white py-1 p-3"
-                                            onClick={next}
+                                            onClick={remove}
                                         >
                                             继续
                                         </button>
@@ -138,7 +157,6 @@ const Course_Deleted = () =>{
                                                 onClick={() => {
                                                     setShowSuccessfully(false)
                                                     location.reload();
-
                                                 }}
                                             >
                                                 确认
@@ -251,7 +269,7 @@ const Course_Deleted = () =>{
                                             </div>
                                             <div className="ml-3   pt-0.5">
                                                 <p className=" text-sm font-medium text-gray-900">课程删除失败</p>
-                                                <p className="mt-1 text-sm text-gray-500">无权限</p>
+                                                <p className="mt-1 text-sm text-gray-500">请检查网路</p>
                                             </div>
                                         </div>
                                         <div className="ml-4 flex justify-end mt-6">
@@ -454,7 +472,7 @@ const Course_Save = () =>{
                                                 <XCircleIcon className="h-8 w-8 text-red-400" aria-hidden="true" />
                                             </div>
                                             <div className="ml-3   pt-0.5">
-                                                <p className=" text-sm font-medium text-gray-900">课程保存失败</p>
+                                                <p className=" text-sm font-medium text-gray-900">课程操作失败</p>
                                                 <p className="mt-1 text-sm text-gray-500">请检查网络或者联系管理员</p>
                                             </div>
                                         </div>
@@ -475,7 +493,7 @@ const Course_Save = () =>{
                                                     setFailedSaved(false)
                                                 }}
                                             >
-                                                重试
+                                                确认
                                             </button>
 
                                         </div>
@@ -539,6 +557,7 @@ const  Course_Show = () =>{
                                                 className=" rounded-md text-sm text-black  focus:outline-none bg-blue-500 text-white py-1 p-3"
                                                 onClick={() => {
                                                     setShowSuccess(false)
+                                                    window.location.replace("/bind_course")
                                                 }}
                                             >
                                                 确认

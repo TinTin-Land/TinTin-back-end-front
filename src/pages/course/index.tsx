@@ -1,11 +1,12 @@
 import Header from "../../components/header";
 import Header_people from "../../components/header_people";
 import {Menu, Transition} from "@headlessui/react";
-import {Fragment} from "react";
+import React, {Fragment} from "react";
 import Link from "next/link";
 import {Course_Deleted, Course_Save, Course_Show} from "../../components/pop-up-box";
 import {useAtom} from "jotai";
 import {Course_Hint_Deleted, Course_ShowFailed, Course_ShowSuccess} from "../../jotai";
+import Head from "../../components/head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -35,6 +36,7 @@ const Course =  () =>{
     return(
         <div  className="flex ">
             <Header/>
+
             <div className="w-full pl-56 overflow-hidden h-screen">
                 <Course_Deleted/>
                 <Course_Show/>
