@@ -261,7 +261,7 @@ const Add_course =  () =>{
                                         *
                                     </div>
                                     <div className='mr-1 text-sm'>
-                                        报名链接:
+                                        上课链接:
                                     </div>
                                 </div>
                                 <div className="">

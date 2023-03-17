@@ -556,7 +556,7 @@ const  Course_Show = () =>{
                                                 type="button"
                                                 className=" rounded-md text-sm text-black  focus:outline-none bg-blue-500 text-white py-1 p-3"
                                                 onClick={() => {
-                                                    setShowSuccess(false)
+                                                    setShowSuccess(false),
                                                     window.location.replace("/bind_course")
                                                 }}
                                             >
